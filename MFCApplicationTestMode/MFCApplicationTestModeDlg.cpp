@@ -14,8 +14,10 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <fstream>
 
-
+#define COLOR_LABEL_BK RGB(100,0,0)
+#define COLOR_LABEL_TEXT RGB(255,255,255)
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
 class CAboutDlg : public CDialogEx
@@ -55,6 +57,7 @@ END_MESSAGE_MAP()
 
 CMFCApplicationTestModeDlg::CMFCApplicationTestModeDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCAPPLICATIONTESTMODE_DIALOG, pParent)
+	, m_dNum(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -62,6 +65,9 @@ CMFCApplicationTestModeDlg::CMFCApplicationTestModeDlg(CWnd* pParent /*=nullptr*
 void CMFCApplicationTestModeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BUTTON_NEW, m_btnNew);
+	DDX_Text(pDX, IDC_EDIT1, m_dNum);
+	DDX_Control(pDX, IDC_STATIC1, m_ldNum);
 }
 
 BEGIN_MESSAGE_MAP(CMFCApplicationTestModeDlg, CDialogEx)
@@ -69,6 +75,7 @@ BEGIN_MESSAGE_MAP(CMFCApplicationTestModeDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_NEW, &CMFCApplicationTestModeDlg::OnBnClickedButtonNew)
+	ON_BN_CLICKED(IDOK, &CMFCApplicationTestModeDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -104,6 +111,12 @@ BOOL CMFCApplicationTestModeDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+
+	InitButtons(&m_btnNew);
+	InitLabel(&m_ldNum);
+
+	UpdateIni(true);
+
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -164,11 +177,68 @@ void CMFCApplicationTestModeDlg::OnBnClickedButton1()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
+void CMFCApplicationTestModeDlg::InitButtons(CButtonST* pButton){
+
+	CFont font;
+	font.CreatePointFont(30, _T("Consolas"));
+
+	pButton->SetFont(&font);
+	pButton->SetColor(CButtonST::BTNST_COLOR_BK_IN, COLOR_LABEL_BK);
+	pButton->SetColor(CButtonST::BTNST_COLOR_BK_OUT, COLOR_LABEL_BK);
+	pButton->SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, COLOR_LABEL_BK);
+	pButton->SetColor(CButtonST::BTNST_COLOR_FG_IN, COLOR_LABEL_TEXT);
+	pButton->SetColor(CButtonST::BTNST_COLOR_FG_OUT, COLOR_LABEL_TEXT);
+	pButton->SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, COLOR_LABEL_TEXT);
+}
+
+void CMFCApplicationTestModeDlg::InitLabel(CLabel* pLabel) {
+
+	pLabel->SetFontName(_T("Consolas"));
+	pLabel->SetFontSize(20);
+
+	pLabel->SetBkColor(COLOR_LABEL_BK);
+	pLabel->SetTextColor(COLOR_LABEL_TEXT);
+
+}
+
+void CMFCApplicationTestModeDlg::UpdateIni(BOOL bLoad) {
+	CString fileName = CString("C:\\Users\\error\\source\\repos\\MFCApplicationTestMode\\MFCApplicationTestMode\\Glim.ini");
+	std::ifstream file(fileName);
+
+	if (!file.good()) bLoad = false;
+
+	CString str(fileName);
+	CString strSection(_T("Parameters"));
+
+	CIni ini(str,strSection);
+
+	ini.SerGet(bLoad, m_dNum, _T("NUM"));
+
+	UpdateData(false);
+
+
+}
+
 
 void CMFCApplicationTestModeDlg::OnBnClickedButtonNew()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CDlgNew Dlg;
-	Dlg.DoModal();
+	// CDlgNew Dlg;
+	// Dlg.DoModal();
+	UpdateData(true);
 
+	m_ldNum.SetText(m_dNum);
+
+
+}
+
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedOk()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(true);
+	UpdateIni(false);
+
+	CDialogEx::OnOK();
 }

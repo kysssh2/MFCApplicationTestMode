@@ -36,6 +36,18 @@
     <ClInclude Include="CDlgNew.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BtnST.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConversion.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplicationTestMode.cpp">
@@ -48,6 +60,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CDlgNew.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BtnST.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ini.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConversion.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

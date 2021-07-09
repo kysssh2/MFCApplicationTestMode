@@ -3,6 +3,9 @@
 //
 
 #pragma once
+#include "BtnST.h"
+#include "Label.h"
+#include "ini.h"
 
 
 // CMFCApplicationTestModeDlg 대화 상자
@@ -32,6 +35,15 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+	
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButtonNew();
+	CButtonST m_btnNew;
+	void InitButtons(CButtonST * pButton);
+	double m_dNum;
+	CLabel m_ldNum;
+	void InitLabel(CLabel* pLabel);
+
+	void UpdateIni(BOOL bLoad);
+	afx_msg void OnBnClickedOk();
 };
