@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDlgNew.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCApplicationTestMode.h" />
     <ClInclude Include="MFCApplicationTestModeDlg.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDlgNew.cpp" />
     <ClCompile Include="MFCApplicationTestMode.cpp" />
     <ClCompile Include="MFCApplicationTestModeDlg.cpp" />
     <ClCompile Include="pch.cpp">
