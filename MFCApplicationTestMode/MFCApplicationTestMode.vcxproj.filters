@@ -48,6 +48,12 @@
     <ClInclude Include="StringConversion.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CDlgImage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgParameter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplicationTestMode.cpp">
@@ -72,6 +78,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="StringConversion.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgImage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgParameter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

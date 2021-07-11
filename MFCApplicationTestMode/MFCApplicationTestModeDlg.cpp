@@ -76,6 +76,14 @@ BEGIN_MESSAGE_MAP(CMFCApplicationTestModeDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_NEW, &CMFCApplicationTestModeDlg::OnBnClickedButtonNew)
 	ON_BN_CLICKED(IDOK, &CMFCApplicationTestModeDlg::OnBnClickedOk)
+	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_BUTTON_IMAGE, &CMFCApplicationTestModeDlg::OnBnClickedButtonImage)
+	ON_BN_CLICKED(IDC_BUTTON_PARAMETER, &CMFCApplicationTestModeDlg::OnBnClickedButtonParameter)
+	ON_BN_CLICKED(IDC_BUTTON_SAVE, &CMFCApplicationTestModeDlg::OnBnClickedButtonSave)
+	ON_BN_CLICKED(IDC_BUTTON_LOAD, &CMFCApplicationTestModeDlg::OnBnClickedButtonLoad)
+	ON_BN_CLICKED(IDC_BUTTON_BINARY, &CMFCApplicationTestModeDlg::OnBnClickedButtonBinary)
+	ON_BN_CLICKED(IDC_BUTTON_CENTROID, &CMFCApplicationTestModeDlg::OnBnClickedButtonCentroid)
+	ON_BN_CLICKED(IDC_BUTTON_GRAY, &CMFCApplicationTestModeDlg::OnBnClickedButtonGray)
 END_MESSAGE_MAP()
 
 
@@ -114,6 +122,7 @@ BOOL CMFCApplicationTestModeDlg::OnInitDialog()
 
 	InitButtons(&m_btnNew);
 	InitLabel(&m_ldNum);
+	InitDialog();
 
 	UpdateIni(true);
 
@@ -168,6 +177,34 @@ void CMFCApplicationTestModeDlg::OnPaint()
 HCURSOR CMFCApplicationTestModeDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+void CMFCApplicationTestModeDlg::InitDialog() {
+
+	m_pDlgImage = new CDlgImage(this);
+	m_pDlgImage->Create(IDD_CDlgImage,this);
+	m_pDlgImage->MoveWindow(20, 100, 600, 350);
+
+	m_pDlgParameter = new CDlgParameter(this);
+	m_pDlgParameter->Create(IDD_CDlgParameter,this);
+	m_pDlgParameter->MoveWindow(20, 100, 600, 350);
+
+	setDlgView(DLG_VIEW_IMAGE);
+
+}
+
+void CMFCApplicationTestModeDlg::setDlgView(int nMode) {
+
+	if (nMode & DLG_VIEW_IMAGE)
+		m_pDlgImage->ShowWindow(SW_SHOW);
+	else
+		m_pDlgImage->ShowWindow(SW_HIDE);
+
+	if(nMode & DLG_VIEW_PARAMETER)
+		m_pDlgParameter->ShowWindow(SW_SHOW);
+	else
+		m_pDlgParameter->ShowWindow(SW_HIDE);
+
 }
 
 
@@ -241,4 +278,105 @@ void CMFCApplicationTestModeDlg::OnBnClickedOk()
 	UpdateIni(false);
 
 	CDialogEx::OnOK();
+}
+
+
+void CMFCApplicationTestModeDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	delete m_pDlgImage;
+	delete m_pDlgParameter;
+
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonImage()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	setDlgView(DLG_VIEW_IMAGE);
+
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonParameter()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	setDlgView(DLG_VIEW_PARAMETER);
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonSave()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	char strFilter[] = "Image Files(*.jpg, *.bmp,*.pgm, *.ppm) | *.jpg;*.bmp;*.pgm;*.ppm;| All Files(*.*)|*.*||";
+	CFileDialog FileDlg(TRUE, CString(".bmp"), NULL, 0, CString(strFilter));
+
+	if (FileDlg.DoModal() == IDOK) {
+		m_pDlgImage->m_imgFile.Save(FileDlg.GetPathName());
+
+	}
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonLoad()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	//char strFilter[] = "BMP ONLY (*.BMP) | *.BMP;*.bmp | ALL File(*.*)|*.*||";
+	char strFilter[] = "Image Files(*.jpg, *.bmp,*.pgm, *.ppm) | *.jpg;*.bmp;*.pgm;*.ppm;| All Files(*.*)|*.*||";
+	CFileDialog FileDlg(TRUE, CString(".bmp"), NULL, 0, CString(strFilter));
+	
+	if (FileDlg.DoModal() == IDOK) {
+		m_pDlgImage->m_imgFile.Destroy();
+
+		HRESULT hr = m_pDlgImage->m_imgFile.Load(FileDlg.GetPathName());
+
+		if (SUCCEEDED(hr)) {
+
+			//이미지 출력
+			m_pDlgParameter->ShowWindow(SW_HIDE);
+			m_pDlgImage->ShowWindow(SW_HIDE);
+			m_pDlgImage->ShowWindow(SW_SHOW);
+
+		}
+	}
+
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonBinary()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pDlgImage->binarization(nThreshold);
+	m_pDlgParameter->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_SHOW);
+
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonCentroid()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pDlgImage->centroid();
+
+	m_pDlgParameter->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_SHOW);
+	
+
+}
+
+
+void CMFCApplicationTestModeDlg::OnBnClickedButtonGray()
+{
+	m_pDlgImage->graySclae();
+
+	m_pDlgParameter->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_HIDE);
+	m_pDlgImage->ShowWindow(SW_SHOW);
 }

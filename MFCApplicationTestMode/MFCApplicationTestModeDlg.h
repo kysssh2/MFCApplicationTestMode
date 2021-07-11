@@ -6,6 +6,11 @@
 #include "BtnST.h"
 #include "Label.h"
 #include "ini.h"
+#include "CDlgImage.h"
+#include "CDlgParameter.h"
+
+
+
 
 
 // CMFCApplicationTestModeDlg 대화 상자
@@ -38,6 +43,9 @@ public:
 	
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButtonNew();
+
+	int nThreshold = 128;
+
 	CButtonST m_btnNew;
 	void InitButtons(CButtonST * pButton);
 	double m_dNum;
@@ -46,4 +54,21 @@ public:
 
 	void UpdateIni(BOOL bLoad);
 	afx_msg void OnBnClickedOk();
+
+	CDlgImage* m_pDlgImage; 
+	CDlgParameter* m_pDlgParameter;
+
+	void InitDialog();
+	void setDlgView(int nMode);
+
+
+
+	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedButtonImage();
+	afx_msg void OnBnClickedButtonParameter();
+	afx_msg void OnBnClickedButtonSave();
+	afx_msg void OnBnClickedButtonLoad();
+	afx_msg void OnBnClickedButtonBinary();
+	afx_msg void OnBnClickedButtonCentroid();
+	afx_msg void OnBnClickedButtonGray();
 };
